@@ -1,81 +1,63 @@
 body {
-  font-family: sans-serif;
-  background: #f0f2f5;
+  font-family: 'Segoe UI', sans-serif;
+  background: #f8f9fa;
   margin: 0;
   padding: 20px;
-  text-align: center;
+  color: #333;
 }
 
 h1 {
-  color: #4b2e83;
-  margin-bottom: 30px;
+  text-align: center;
+  margin-bottom: 40px;
+  color: #5e2b97;
+}
+
+.malla-container {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
 .semestre {
-  background: white;
+  background: #fff;
   padding: 15px;
-  margin: 20px auto;
-  width: 90%;
-  border-radius: 10px;
-  box-shadow: 0 0 10px #ccc;
-  transition: background-color 0.3s;
+  border-left: 6px solid #5e2b97;
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.08);
 }
 
-.semestre.listo {
-  background-color: #d4edda;
-}
-
-.semestre-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border-bottom: 1px solid #ccc;
-  padding-bottom: 5px;
-}
-
-.grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 10px;
-  margin-top: 15px;
+.semestre h2 {
+  margin-bottom: 10px;
+  color: #5e2b97;
+  font-size: 20px;
   text-align: left;
 }
 
+.grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
 .asignatura {
-  background: #ececec;
-  padding: 10px;
-  border-radius: 6px;
-  transition: 0.2s;
+  background: #eaeaea;
+  padding: 10px 15px;
+  border-radius: 10px;
   cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  flex: 1 1 200px;
+  text-align: center;
 }
 
 .asignatura:hover {
-  background: #dcdcdc;
-  transform: scale(1.02);
+  background: #d4d4d4;
 }
 
-button {
-  background-color: #4b2e83;
-  color: white;
-  border: none;
-  padding: 6px 10px;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-button:hover {
-  background-color: #3c256b;
-}
-
-.info-box {
-  background: white;
-  padding: 20px;
-  margin: 20px auto;
-  width: 60%;
-  border-radius: 10px;
-  box-shadow: 0 0 10px #999;
-}
-
-.oculto {
-  display: none;
+.asignatura.aprobada {
+  background: #c8e6c9;
+  color: #1b5e20;
+  font-weight: bold;
+  border: 1px solid #81c784;
 }
