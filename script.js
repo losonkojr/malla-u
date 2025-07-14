@@ -78,7 +78,7 @@ const malla = {
     "Actividad de Titulación II",
     "Electivo III",
     "Electivo IV",
-    "Práctica final"
+    "Práctica Profesional II"
   ]
 };
 
