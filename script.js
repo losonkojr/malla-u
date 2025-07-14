@@ -78,7 +78,7 @@ const malla = {
     "Actividad de Titulación II",
     "Electivo III",
     "Electivo IV",
-    "Práctica Profesional II"
+    "Práctica final"
   ]
 };
 
@@ -111,7 +111,7 @@ function crearMalla() {
     contenedor.appendChild(semestreDiv);
   }
 
-  // Restaurar estado desde localStorage
+  // Restaurar estado guardado
   document.querySelectorAll(".semestre").forEach(sem => {
     const id = sem.id;
     if (localStorage.getItem(id) === 'listo') {
@@ -122,20 +122,4 @@ function crearMalla() {
 
 function mostrarInfo(nombre) {
   const box = document.getElementById("info-box");
-  box.innerHTML = `<h2>${nombre}</h2>`;
-  box.classList.remove("oculto");
-}
-
-function marcarSemestre(id) {
-  const sem = document.getElementById(id);
-  const yaListo = sem.classList.contains("listo");
-  if (yaListo) {
-    sem.classList.remove("listo");
-    localStorage.removeItem(id);
-  } else {
-    sem.classList.add("listo");
-    localStorage.setItem(id, "listo");
-  }
-}
-
-window.onload = crearMalla;
+  box.innerHTML = `<h2>${nombre}</h
