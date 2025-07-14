@@ -82,8 +82,19 @@ const malla = {
   ]
 };
 
+function generarColor(semilla) {
+  let hash = 0;
+  for (let i = 0; i < semilla.length; i++) {
+    hash = semilla.charCodeAt(i) + ((hash << 5) - hash);
+  }
+  const hue = hash % 360;
+  return `hsl(${hue}, 65%, 55%)`;
+}
+
 function crearMalla() {
   const contenedor = document.getElementById("malla");
+  let total = 0, aprobados = 0;
+
   for (const [semestre, ramos] of Object.entries(malla)) {
     const semDiv = document.createElement("div");
     semDiv.className = "semestre";
@@ -97,24 +108,30 @@ function crearMalla() {
 
     for (const ramo of ramos) {
       const id = `ramo-${semestre}-${ramo}`.replace(/\s+/g, "_");
-
       const asignatura = document.createElement("div");
       asignatura.className = "asignatura";
       asignatura.textContent = ramo;
 
-      // Estado guardado
+      const color = generarColor(ramo);
+      asignatura.style.backgroundColor = color;
+
+      total++;
       if (localStorage.getItem(id) === "aprobado") {
         asignatura.classList.add("aprobada");
+        aprobados++;
       }
 
       asignatura.onclick = () => {
         if (asignatura.classList.contains("aprobada")) {
           asignatura.classList.remove("aprobada");
           localStorage.removeItem(id);
+          aprobados--;
         } else {
           asignatura.classList.add("aprobada");
           localStorage.setItem(id, "aprobado");
+          aprobados++;
         }
+        actualizarProgreso(total, aprobados);
       };
 
       grid.appendChild(asignatura);
@@ -123,6 +140,14 @@ function crearMalla() {
     semDiv.appendChild(grid);
     contenedor.appendChild(semDiv);
   }
+
+  actualizarProgreso(total, aprobados);
+}
+
+function actualizarProgreso(total, aprobados) {
+  const porcentaje = Math.round((aprobados / total) * 100);
+  const barra = document.getElementById("progreso");
+  barra.textContent = `${porcentaje}% completado (${aprobados}/${total})`;
 }
 
 window.onload = crearMalla;
