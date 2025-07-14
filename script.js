@@ -1,89 +1,91 @@
 const malla = {
-  "1° Semestre": [
-    "Competencias Comunicativas (FIP)",
-    "Sociedad, Cultura y Educación",
-    "Tecnologías para el Aprendizaje",
-    "Cognición y Lenguaje",
-    "Atención Temprana y Psicomotricidad",
-    "Formación Integral en Actividades Extraprogramáticas"
-  ],
-  "2° Semestre": [
-    "Sociología Educacional con Enfoque de Género",
+  "I Semestre": [
+    "Sociología Educacional con enfoque de género",
     "Filosofía Educacional",
     "Psicología Educacional",
-    "Familia y Comunidad",
-    "Inglés Comunicacional I (FIP)",
-    "Formación Integral Oferta Institucional"
+    "Políticas de Inclusión y Enfoque de Derecho",
+    "Competencias Comunicativas",
+    "Inglés I",
+    "Práctica I"
   ],
-  "3° Semestre": [
-    "Bases Curriculares de Historia, Geografía y Ciencias Sociales",
-    "Currículum Educacional",
-    "Didáctica General",
-    "Evaluación para el Aprendizaje",
-    "Tecnologías para la Inclusión",
-    "Inglés Comunicacional II (FIP)"
-  ],
-  "4° Semestre": [
+  "II Semestre": [
+    "Sociedad, Cultura y Educación",
+    "Tecnologías para el Aprendizaje",
+    "Bases Neurobiológicas y Neurociencias",
     "Diversidad Educativa I",
-    "Intervención Psicopedagógica para el Desarrollo de Funciones Cognitivas",
-    "Evaluación de las Funciones Cognitivas",
-    "Práctica I: Exploración del Sistema Educativo",
-    "Formación Integral Oferta Institucional",
-    "Ética y Autocuidado Profesional"
+    "Inglés II",
+    "Formación Integral",
+    "Práctica II"
   ],
-  "5° Semestre": [
+  "III Semestre": [
+    "Currículum Educacional",
+    "Cognición y Lenguaje",
     "Diversidad Educativa II",
-    "Psicología del Desarrollo Socioemocional",
+    "Atención Temprana y Psicomotricidad",
+    "Inglés III",
+    "Formación Integral",
+    "Práctica III"
+  ],
+  "IV Semestre": [
+    "Didáctica General",
+    "Tecnologías para la Inclusión",
     "Trayectorias Evolutivas Diversas",
-    "Evaluación de Habilidades Matemáticas",
-    "Práctica II: Diversidad y Contextos Educativos",
-    "Inglés Comunicacional III (FIP)"
+    "Diversificación Curricular",
+    "Psicología del Desarrollo Emocional",
+    "Inglés IV",
+    "Práctica IV"
   ],
-  "6° Semestre": [
+  "V Semestre": [
+    "Evaluación para el Aprendizaje",
     "Bases Curriculares de Ciencias Naturales",
-    "Intervención Psicopedagógica para el Aprendizaje Matemático",
-    "Bases Curriculares de Lenguaje y Comunicación",
-    "Evaluación de las Habilidades de Lectura y Escritura",
-    "Práctica III: Diversidad y Educación Especial",
-    "Inglés Comunicacional IV (FIP)"
-  ],
-  "7° Semestre": [
-    "Gestión Educacional y Liderazgo Escolar",
+    "Bases Curriculares de Historia, Geografía y Ciencias Sociales",
     "Bases Curriculares de Matemática",
-    "Evaluación Psicopedagógica",
-    "Práctica IV: Diversidad y Desarrollo Socioemocional",
-    "Intervención Psicopedagógica para el Aprendizaje de la Lectura y Escritura",
-    "Electivo I"
+    "Bases Curriculares de Lenguaje y Comunicación",
+    "Práctica V"
   ],
-  "8° Semestre": [
+  "VI Semestre": [
+    "Gestión del Trabajo Colaborativo Interdisciplinario",
+    "Familia y Comunidad",
+    "Evaluación de las Funciones Cognitivas",
+    "Evaluación de las Habilidades Matemáticas",
+    "Evaluación de las Habilidades de Lectura y Escritura",
+    "Formación Integral",
+    "Formación Integral"
+  ],
+  "VII Semestre": [
+    "Investigación Educacional",
+    "Gestión Educacional y Liderazgo Escolar",
+    "Intervención Psicopedagógica para el Desarrollo de las Funciones Cognitivas",
+    "Intervención Psicopedagógica para el Aprendizaje Matemático",
+    "Intervención Psicopedagógica para el Aprendizaje de la Lectura y Escritura",
+    "Práctica VI"
+  ],
+  "VIII Semestre": [
+    "Proyecto de Grado",
+    "Orientación, Educación y Convivencia Escolar",
+    "Ética y Autocuidado Personal",
     "Intervención Psicopedagógica para las Dificultades Atencionales y Conductuales",
-    "Práctica V: Diseño y Apoyos Curriculares Inclusivos",
+    "Intervención Psicopedagógica para las Dificultades del Espectro Autista",
+    "Práctica VII"
+  ],
+  "IX Semestre": [
+    "Actividad de Titulación I",
+    "Electivo I",
     "Electivo II",
+    "Práctica Profesional I"
+  ],
+  "X Semestre": [
+    "Actividad de Titulación II",
     "Electivo III",
     "Electivo IV",
-    "Actividad de Titulación I"
-  ],
-  "9° Semestre": [
-    "Práctica Profesional I",
-    "Práctica Nivel Inicial",
-    "Práctica Nivel Intermedio",
-    "Intervención Psicopedagógica para las Dificultades del Espectro Autista",
-    "Actividad de Titulación II"
-  ],
-  "10° Semestre": [
-    "Práctica Profesional II",
-    "Práctica Nivel Avanzado",
-    "Proyecto de Grado - Investigación Educacional",
-    "Gestión del Trabajo Colaborativo Interdisciplinario",
-    "Políticas de Inclusión y Enfoque de Derecho",
-    "Orientación, Educación y Convivencia Escolar"
+    "Práctica Profesional II"
   ]
 };
 
 function crearMalla() {
   const contenedor = document.getElementById("malla");
   for (const [semestre, ramos] of Object.entries(malla)) {
-    const id = semestre.replace(/[^\w]/g, '_');
+    const id = semestre.replace(/\s+/g, "_");
 
     const semestreDiv = document.createElement("div");
     semestreDiv.className = "semestre";
@@ -109,7 +111,7 @@ function crearMalla() {
     contenedor.appendChild(semestreDiv);
   }
 
-  // Restaurar estados guardados
+  // Restaurar estado desde localStorage
   document.querySelectorAll(".semestre").forEach(sem => {
     const id = sem.id;
     if (localStorage.getItem(id) === 'listo') {
@@ -126,13 +128,13 @@ function mostrarInfo(nombre) {
 
 function marcarSemestre(id) {
   const sem = document.getElementById(id);
-  const yaListo = sem.classList.contains('listo');
+  const yaListo = sem.classList.contains("listo");
   if (yaListo) {
-    sem.classList.remove('listo');
+    sem.classList.remove("listo");
     localStorage.removeItem(id);
   } else {
-    sem.classList.add('listo');
-    localStorage.setItem(id, 'listo');
+    sem.classList.add("listo");
+    localStorage.setItem(id, "listo");
   }
 }
 
