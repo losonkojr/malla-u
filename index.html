@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Malla Interactiva</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <h1>Malla Interactiva - Universidad</h1>
+  <div class="grid">
+    <div class="asignatura aprobada" onclick="mostrarInfo('Matemáticas I', 'Sin requisitos', 5)">Matemáticas I</div>
+    <div class="asignatura cursando" onclick="mostrarInfo('Lenguaje', 'Sin requisitos', 4)">Lenguaje</div>
+    <div class="asignatura pendiente" onclick="mostrarInfo('Programación', 'Matemáticas I', 6)">Programación</div>
+  </div>
+
+  <div id="info-box" class="info-box oculto"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>
