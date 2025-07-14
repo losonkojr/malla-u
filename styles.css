@@ -1,57 +1,70 @@
 body {
   font-family: sans-serif;
-  background: #f4f4f4;
+  background: #f0f2f5;
   margin: 0;
   padding: 20px;
   text-align: center;
 }
 
 h1 {
+  color: #4b2e83;
   margin-bottom: 30px;
-  color: #5c3d99;
 }
 
 .semestre {
   background: white;
   padding: 15px;
   margin: 20px auto;
-  width: 85%;
+  width: 90%;
   border-radius: 10px;
   box-shadow: 0 0 10px #ccc;
   transition: background-color 0.3s;
 }
 
 .semestre.listo {
-  background-color: #d4edda; /* verde */
+  background-color: #d4edda;
 }
 
 .semestre-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 2px solid #eee;
+  border-bottom: 1px solid #ccc;
   padding-bottom: 5px;
 }
 
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 10px;
   margin-top: 15px;
   text-align: left;
 }
 
 .asignatura {
-  background: #eee;
+  background: #ececec;
   padding: 10px;
-  border-radius: 8px;
-  cursor: pointer;
+  border-radius: 6px;
   transition: 0.2s;
+  cursor: pointer;
 }
 
 .asignatura:hover {
-  transform: scale(1.03);
-  background: #ddd;
+  background: #dcdcdc;
+  transform: scale(1.02);
+}
+
+button {
+  background-color: #4b2e83;
+  color: white;
+  border: none;
+  padding: 6px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #3c256b;
 }
 
 .info-box {
@@ -65,17 +78,4 @@ h1 {
 
 .oculto {
   display: none;
-}
-
-button {
-  padding: 5px 10px;
-  border: none;
-  background-color: #5c3d99;
-  color: white;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-button:hover {
-  background-color: #452c78;
 }
