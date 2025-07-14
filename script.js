@@ -85,41 +85,44 @@ const malla = {
 function crearMalla() {
   const contenedor = document.getElementById("malla");
   for (const [semestre, ramos] of Object.entries(malla)) {
-    const id = semestre.replace(/\s+/g, "_");
+    const semDiv = document.createElement("div");
+    semDiv.className = "semestre";
 
-    const semestreDiv = document.createElement("div");
-    semestreDiv.className = "semestre";
-    semestreDiv.id = id;
-
-    const header = document.createElement("div");
-    header.className = "semestre-header";
-    header.innerHTML = `<h2>${semestre}</h2><button onclick="marcarSemestre('${id}')">Marcar como listo</button>`;
-    semestreDiv.appendChild(header);
+    const titulo = document.createElement("h2");
+    titulo.textContent = semestre;
+    semDiv.appendChild(titulo);
 
     const grid = document.createElement("div");
     grid.className = "grid";
 
     for (const ramo of ramos) {
+      const id = `ramo-${semestre}-${ramo}`.replace(/\s+/g, "_");
+
       const asignatura = document.createElement("div");
       asignatura.className = "asignatura";
       asignatura.textContent = ramo;
-      asignatura.onclick = () => mostrarInfo(ramo);
+
+      // Estado guardado
+      if (localStorage.getItem(id) === "aprobado") {
+        asignatura.classList.add("aprobada");
+      }
+
+      asignatura.onclick = () => {
+        if (asignatura.classList.contains("aprobada")) {
+          asignatura.classList.remove("aprobada");
+          localStorage.removeItem(id);
+        } else {
+          asignatura.classList.add("aprobada");
+          localStorage.setItem(id, "aprobado");
+        }
+      };
+
       grid.appendChild(asignatura);
     }
 
-    semestreDiv.appendChild(grid);
-    contenedor.appendChild(semestreDiv);
+    semDiv.appendChild(grid);
+    contenedor.appendChild(semDiv);
   }
-
-  // Restaurar estado guardado
-  document.querySelectorAll(".semestre").forEach(sem => {
-    const id = sem.id;
-    if (localStorage.getItem(id) === 'listo') {
-      sem.classList.add("listo");
-    }
-  });
 }
 
-function mostrarInfo(nombre) {
-  const box = document.getElementById("info-box");
-  box.innerHTML = `<h2>${nombre}</h
+window.onload = crearMalla;
