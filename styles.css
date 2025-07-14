@@ -1,31 +1,58 @@
 body {
   font-family: sans-serif;
+  background: #f4f4f4;
+  margin: 0;
+  padding: 20px;
   text-align: center;
-  background: #f0f0f0;
+}
+
+h1 {
+  margin-bottom: 30px;
+  color: #5c3d99;
+}
+
+.semestre {
+  background: white;
+  padding: 15px;
+  margin: 20px auto;
+  width: 85%;
+  border-radius: 10px;
+  box-shadow: 0 0 10px #ccc;
+  transition: background-color 0.3s;
+}
+
+.semestre.listo {
+  background-color: #d4edda; /* verde */
+}
+
+.semestre-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 2px solid #eee;
+  padding-bottom: 5px;
 }
 
 .grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
   gap: 10px;
-  margin: 30px;
+  margin-top: 15px;
+  text-align: left;
 }
 
 .asignatura {
-  padding: 15px;
+  background: #eee;
+  padding: 10px;
   border-radius: 8px;
   cursor: pointer;
-  background-color: #ddd;
-  transition: transform 0.2s;
+  transition: 0.2s;
 }
 
 .asignatura:hover {
-  transform: scale(1.05);
+  transform: scale(1.03);
+  background: #ddd;
 }
-
-.aprobada { background-color: #a8e6cf; }
-.cursando { background-color: #ffd3b6; }
-.pendiente { background-color: #ffaaa5; }
 
 .info-box {
   background: white;
@@ -38,4 +65,17 @@ body {
 
 .oculto {
   display: none;
+}
+
+button {
+  padding: 5px 10px;
+  border: none;
+  background-color: #5c3d99;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #452c78;
 }
