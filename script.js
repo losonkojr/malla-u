@@ -78,22 +78,21 @@ const malla = {
     "Actividad de Titulación II",
     "Electivo III",
     "Electivo IV",
-    "Práctica final"
+    "Práctica Profesional II"
   ]
 };
 
-// Asignar colores según el tipo de asignatura
 function colorPorAsignatura(nombre) {
   const n = nombre.toLowerCase();
-  if (n.includes("inglés")) return "#f9c89f"; // Inglés FIP 🧡
+  if (n.includes("inglés")) return "#f9c89f"; // Inglés 🧡
   if (n.includes("integral") || n.includes("ética") || n.includes("familia")) return "#c3e8c2"; // Formación Integral 💚
   if (n.includes("práctica") || n.includes("nivel") || n.includes("evaluación de las funciones")) return "#f5e69d"; // Prácticas 💛
-  if (n.includes("electivo") || n.includes("proyecto") || n.includes("titulación")) return "#f7a8a8"; // Titulación y electivos ❤️
+  if (n.includes("electivo") || n.includes("proyecto") || n.includes("titulación")) return "#f7a8a8"; // Titulación ❤️
   if (
     n.includes("diversidad") || n.includes("intervención") || n.includes("cognición") ||
     n.includes("trayectorias") || n.includes("atención") || n.includes("autista")
   ) return "#9dcff1"; // Especialidad 🔵
-  return "#c7b3e5"; // Pedagógica-Profesional (default) 💜
+  return "#c7b3e5"; // Pedagógica-Profesional 💜
 }
 
 function crearMalla() {
@@ -124,7 +123,10 @@ function crearMalla() {
     if (desbloqueado) {
       const boton = document.createElement("button");
       boton.textContent = "✓ Marcar semestre";
-      boton.onclick = () => marcarSemestre(grid);
+      boton.onclick = (e) => {
+        const grid = e.target.closest(".semestre").querySelector(".grid");
+        marcarSemestre(grid);
+      };
       header.appendChild(boton);
     }
 
@@ -218,7 +220,7 @@ function marcarSemestre(grid) {
   const total = document.querySelectorAll(".asignatura").length;
   const aprobados = document.querySelectorAll(".asignatura.aprobada").length;
   actualizarProgreso(total, aprobados);
-  location.reload(); // Refresca para desbloquear el siguiente semestre
+  location.reload();
 }
 
 window.onload = crearMalla;
