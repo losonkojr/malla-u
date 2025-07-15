@@ -82,18 +82,13 @@ const malla = {
   ]
 };
 
-// Aquí defines las relaciones de prerrequisitos usando los mismos IDs que generas en crearMalla
-const prerequisitos = [
-  { from: "ramo-I_Semestre-Sociología_Educacional_con_enfoque_de_género", to: "ramo-II_Semestre-Sociedad,_Cultura_y_Educación" },
-  { from: "ramo-II_Semestre-Sociedad,_Cultura_y_Educación", to: "ramo-III_Semestre-Currículum_Educacional" },
-  // Agrega aquí las demás relaciones de prerrequisitos que necesites
-];
-
 function crearMalla() {
   const contenedor = document.getElementById("malla");
   let total = 0, aprobados = 0;
+  const semestres = Object.entries(malla);
 
-  for (const [semestre, ramos] of Object.entries(malla)) {
+  for (let i = 0; i < semestres.length; i++) {
+    const [semestre, ramos] = semestres[i];
     const semDiv = document.createElement("div");
     semDiv.className = "semestre";
 
@@ -105,16 +100,21 @@ function crearMalla() {
     const titulo = document.createElement("h2");
     titulo.textContent = semestre;
 
-    const boton = document.createElement("button");
-    boton.textContent = "✓ Marcar semestre";
-
     const grid = document.createElement("div");
     grid.className = "grid";
 
-    boton.onclick = () => marcarSemestre(grid);
-
     header.appendChild(titulo);
-    header.appendChild(boton);
+
+    // Determinar si el semestre está desbloqueado
+    let desbloqueado = i === 0 || semestreDesbloqueado(semestres[i - 1][0], semestres[i - 1][1]);
+
+    if (desbloqueado) {
+      const boton = document.createElement("button");
+      boton.textContent = "✓ Marcar semestre";
+      boton.onclick = () => marcarSemestre(grid);
+      header.appendChild(boton);
+    }
+
     semDiv.appendChild(header);
 
     for (const ramo of ramos) {
@@ -122,37 +122,41 @@ function crearMalla() {
       const asignatura = document.createElement("div");
       asignatura.className = "asignatura";
       asignatura.textContent = ramo;
-      asignatura.id = id;
-
-      // Estilo base (morado claro)
-      asignatura.style.backgroundColor = "#db88fd";
-      asignatura.style.color = "#fff";
 
       total++;
 
-      if (localStorage.getItem(id) === "aprobado") {
-        asignatura.classList.add("aprobada");
-        asignatura.style.backgroundColor = "#c8e6c9";
-        asignatura.style.color = "#1b5e20";
-        aprobados++;
-      }
+      if (desbloqueado) {
+        asignatura.style.backgroundColor = "#db88fd";
+        asignatura.style.color = "#fff";
 
-      asignatura.onclick = () => {
-        if (asignatura.classList.contains("aprobada")) {
-          asignatura.classList.remove("aprobada");
-          asignatura.style.backgroundColor = "#db88fd";
-          asignatura.style.color = "#fff";
-          localStorage.removeItem(id);
-          aprobados--;
-        } else {
+        if (localStorage.getItem(id) === "aprobado") {
           asignatura.classList.add("aprobada");
           asignatura.style.backgroundColor = "#c8e6c9";
           asignatura.style.color = "#1b5e20";
-          localStorage.setItem(id, "aprobado");
           aprobados++;
         }
-        actualizarProgreso(total, aprobados);
-      };
+
+        asignatura.onclick = () => {
+          if (asignatura.classList.contains("aprobada")) {
+            asignatura.classList.remove("aprobada");
+            asignatura.style.backgroundColor = "#db88fd";
+            asignatura.style.color = "#fff";
+            localStorage.removeItem(id);
+            aprobados--;
+          } else {
+            asignatura.classList.add("aprobada");
+            asignatura.style.backgroundColor = "#c8e6c9";
+            asignatura.style.color = "#1b5e20";
+            localStorage.setItem(id, "aprobado");
+            aprobados++;
+          }
+          actualizarProgreso(total, aprobados);
+        };
+      } else {
+        asignatura.style.backgroundColor = "#ccc";
+        asignatura.style.color = "#666";
+        asignatura.style.cursor = "not-allowed";
+      }
 
       grid.appendChild(asignatura);
     }
@@ -162,6 +166,13 @@ function crearMalla() {
   }
 
   actualizarProgreso(total, aprobados);
+}
+
+function semestreDesbloqueado(nombreSemestreAnterior, ramos) {
+  return ramos.every(ramo => {
+    const id = `ramo-${nombreSemestreAnterior}-${ramo}`.replace(/\s+/g, "_");
+    return localStorage.getItem(id) === "aprobado";
+  });
 }
 
 function actualizarProgreso(total, aprobados) {
@@ -192,74 +203,9 @@ function marcarSemestre(grid) {
   const total = document.querySelectorAll(".asignatura").length;
   const aprobados = document.querySelectorAll(".asignatura.aprobada").length;
   actualizarProgreso(total, aprobados);
+
+  // Recargar para actualizar desbloqueos
+  location.reload();
 }
 
-function dibujarFlechas() {
-  // Quitar SVG si existe para refrescar
-  let svg = document.getElementById("svg-flechas");
-  if (svg) svg.remove();
-
-  // Crear SVG
-  svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-  svg.setAttribute("id", "svg-flechas");
-  svg.style.position = "absolute";
-  svg.style.top = "0";
-  svg.style.left = "0";
-  svg.style.width = "100%";
-  svg.style.height = "100%";
-  svg.style.pointerEvents = "none"; // para que no interfiera con clicks
-  svg.style.zIndex = "0";
-
-  // Insertar svg antes del contenedor de malla para que quede debajo
-  const contenedor = document.getElementById("malla");
-  contenedor.style.position = "relative";
-  contenedor.parentElement.insertBefore(svg, contenedor);
-
-  prerequisitos.forEach(({ from, to }) => {
-    const elemFrom = document.getElementById(from);
-    const elemTo = document.getElementById(to);
-    if (!elemFrom || !elemTo) return;
-
-    const contenedorRect = contenedor.getBoundingClientRect();
-    const fromRect = elemFrom.getBoundingClientRect();
-    const toRect = elemTo.getBoundingClientRect();
-
-    const startX = fromRect.right - contenedorRect.left;
-    const startY = fromRect.top + fromRect.height / 2 - contenedorRect.top;
-    const endX = toRect.left - contenedorRect.left;
-    const endY = toRect.top + toRect.height / 2 - contenedorRect.top;
-
-    const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
-    line.setAttribute("x1", startX);
-    line.setAttribute("y1", startY);
-    line.setAttribute("x2", endX);
-    line.setAttribute("y2", endY);
-    line.setAttribute("stroke", "#6a0dad");
-    line.setAttribute("stroke-width", "2");
-    line.setAttribute("marker-end", "url(#arrowhead)");
-
-    svg.appendChild(line);
-  });
-
-  const defs = document.createElementNS("http://www.w3.org/2000/svg", "defs");
-  const marker = document.createElementNS("http://www.w3.org/2000/svg", "marker");
-  marker.setAttribute("id", "arrowhead");
-  marker.setAttribute("markerWidth", "10");
-  marker.setAttribute("markerHeight", "7");
-  marker.setAttribute("refX", "10");
-  marker.setAttribute("refY", "3.5");
-  marker.setAttribute("orient", "auto");
-  marker.setAttribute("fill", "#6a0dad");
-
-  const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
-  path.setAttribute("d", "M0,0 L10,3.5 L0,7 Z");
-
-  marker.appendChild(path);
-  defs.appendChild(marker);
-  svg.appendChild(defs);
-}
-
-window.onload = () => {
-  crearMalla();
-  setTimeout(dibujarFlechas, 100);
-};
+window.onload = crearMalla;
