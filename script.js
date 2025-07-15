@@ -78,9 +78,23 @@ const malla = {
     "Actividad de Titulación II",
     "Electivo III",
     "Electivo IV",
-    "Práctica Profesional II"
+    "Práctica final"
   ]
 };
+
+// Asignar colores según el tipo de asignatura
+function colorPorAsignatura(nombre) {
+  const n = nombre.toLowerCase();
+  if (n.includes("inglés")) return "#f9c89f"; // Inglés FIP 🧡
+  if (n.includes("integral") || n.includes("ética") || n.includes("familia")) return "#c3e8c2"; // Formación Integral 💚
+  if (n.includes("práctica") || n.includes("nivel") || n.includes("evaluación de las funciones")) return "#f5e69d"; // Prácticas 💛
+  if (n.includes("electivo") || n.includes("proyecto") || n.includes("titulación")) return "#f7a8a8"; // Titulación y electivos ❤️
+  if (
+    n.includes("diversidad") || n.includes("intervención") || n.includes("cognición") ||
+    n.includes("trayectorias") || n.includes("atención") || n.includes("autista")
+  ) return "#9dcff1"; // Especialidad 🔵
+  return "#c7b3e5"; // Pedagógica-Profesional (default) 💜
+}
 
 function crearMalla() {
   const contenedor = document.getElementById("malla");
@@ -105,7 +119,6 @@ function crearMalla() {
 
     header.appendChild(titulo);
 
-    // Determinar si el semestre está desbloqueado
     let desbloqueado = i === 0 || semestreDesbloqueado(semestres[i - 1][0], semestres[i - 1][1]);
 
     if (desbloqueado) {
@@ -126,8 +139,9 @@ function crearMalla() {
       total++;
 
       if (desbloqueado) {
-        asignatura.style.backgroundColor = "#db88fd";
-        asignatura.style.color = "#fff";
+        const color = colorPorAsignatura(ramo);
+        asignatura.style.backgroundColor = color;
+        asignatura.style.color = "#000";
 
         if (localStorage.getItem(id) === "aprobado") {
           asignatura.classList.add("aprobada");
@@ -139,8 +153,8 @@ function crearMalla() {
         asignatura.onclick = () => {
           if (asignatura.classList.contains("aprobada")) {
             asignatura.classList.remove("aprobada");
-            asignatura.style.backgroundColor = "#db88fd";
-            asignatura.style.color = "#fff";
+            asignatura.style.backgroundColor = color;
+            asignatura.style.color = "#000";
             localStorage.removeItem(id);
             aprobados--;
           } else {
@@ -168,9 +182,9 @@ function crearMalla() {
   actualizarProgreso(total, aprobados);
 }
 
-function semestreDesbloqueado(nombreSemestreAnterior, ramos) {
+function semestreDesbloqueado(nombreAnterior, ramos) {
   return ramos.every(ramo => {
-    const id = `ramo-${nombreSemestreAnterior}-${ramo}`.replace(/\s+/g, "_");
+    const id = `ramo-${nombreAnterior}-${ramo}`.replace(/\s+/g, "_");
     return localStorage.getItem(id) === "aprobado";
   });
 }
@@ -187,10 +201,11 @@ function marcarSemestre(grid) {
 
   asignaturas.forEach(a => {
     const id = `ramo-${a.parentElement.previousSibling.textContent}-${a.textContent}`.replace(/\s+/g, "_");
+    const color = colorPorAsignatura(a.textContent);
     if (todasAprobadas) {
       a.classList.remove("aprobada");
-      a.style.backgroundColor = "#db88fd";
-      a.style.color = "#fff";
+      a.style.backgroundColor = color;
+      a.style.color = "#000";
       localStorage.removeItem(id);
     } else {
       a.classList.add("aprobada");
@@ -203,9 +218,7 @@ function marcarSemestre(grid) {
   const total = document.querySelectorAll(".asignatura").length;
   const aprobados = document.querySelectorAll(".asignatura.aprobada").length;
   actualizarProgreso(total, aprobados);
-
-  // Recargar para actualizar desbloqueos
-  location.reload();
+  location.reload(); // Refresca para desbloquear el siguiente semestre
 }
 
 window.onload = crearMalla;
